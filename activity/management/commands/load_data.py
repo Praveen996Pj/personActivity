@@ -1,5 +1,6 @@
 import sys
 import random
+import pytz
 from datetime import date, timedelta, datetime
 
 from django.core.management.base import BaseCommand
@@ -28,9 +29,10 @@ class Command(BaseCommand):
 					)
 					user.set_password('demo')
 					user.save()
+					_timezone = random.choice(Timezone.objects.all())
 					person = Person.objects.create(
 						user = user,
-						tz = random.choice(Timezone.objects.all())
+						tz = _timezone
 					)
 
 					for i in (0, 3):
@@ -38,7 +40,7 @@ class Command(BaseCommand):
 							2020, random.randrange(1, 13), random.randrange(1,31),
 							random.randrange(0, 24), random.randrange(1, 61), random.randrange(1, 61)
 						)
-						end_time = start_time + timedelta(random.randrange(50, 200))
+						end_time = start_time + timedelta(minutes=random.randrange(50, 200))
 						PersonActivity.objects.create(
 							person = person,
 							start_time = start_time,

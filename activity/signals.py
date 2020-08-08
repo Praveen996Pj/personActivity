@@ -5,8 +5,6 @@ from activity.models import Person
 
 @receiver(post_save, sender=Person)
 def save_profile(sender, instance, created,**kwargs):
-	# print('test')
-	print(created)
 	if created:
 		id = instance.id
 		temp_id = base_repr(id, 36)
